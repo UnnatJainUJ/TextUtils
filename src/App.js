@@ -1,25 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
-
+import './Appa.css';
+// import About from './components/About';
+import { useState } from 'react';
+import Navbar from './components/Navbar';
+import Textform from './components/Textform';
+import Alert from './components/Alert';
+import React  from 'react';
+// import {
+//   BrowserRouter,
+//   Routes,
+//   Route,
+//   // Link,
+// } from "react-router-dom";
 function App() {
+
+  const [mode, setmode] = useState('light');
+  const [alert, setAlert] = useState(null);
+
+  const showAlert = (message , type)=>{
+    setAlert({
+      msg : message,
+      type : type
+    })
+    setTimeout(() => {
+      setAlert(null);
+    }, 1500);
+  }
+
+  const toggleMode= () => {
+    if(mode === 'light')
+    {
+      setmode ('dark');
+      document.body.style.backgroundColor = '#042743';
+      showAlert("Dark mode has been enabled" , "success");
+      document.title = "TextUtils - Dark"
+    }
+      else{
+        setmode('light');
+
+        document.body.style.backgroundColor = 'white';
+        showAlert("Light mode has been enabled" , "success");
+        document.title = "TextUtils - Light"
+
+      }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <>
+
+  <Navbar title="TextUtils" mode={mode}  toggleMode={toggleMode}/>
+  <Alert alert={alert}/>
+
+  {/* <BrowserRouter>
+      <Routes>
+        <Route path="/" element={} />
+        <Route path="/About" element={<About/>} />
+      </Routes>
+    </BrowserRouter> */}
+
+  <div className="container">
+
+  <Textform showAlert={showAlert} heading ="Enter the text to analyze" mode={mode}/>
+ 
+
+  </div>
+  
+   </>
   );
-}
+} 
 
 export default App;
